@@ -12,6 +12,10 @@ namespace BlazorApp1.Data
 
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<Expense> Expenses { get; set; }
+
+        public DbSet<Income> Incomes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>().HasData(new Category[]

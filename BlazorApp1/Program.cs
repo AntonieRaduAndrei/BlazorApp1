@@ -2,7 +2,7 @@ using BlazorApp1.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
-using BlazorApp1.Services;
+using BlazerApp1.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
