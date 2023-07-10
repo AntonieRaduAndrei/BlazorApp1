@@ -6,24 +6,27 @@
 
 
 <ul>
-    @foreach (var category in Service.GetCategories())
+    @foreach (var category in categories)
     {
         <li>
             <input @bind="category.Name" />
-            <button @onclick="()=>Service.DeleteCategory(category.Id)">Delete category</button>
+            <button @onclick="()=>{Service.DeleteCategory(category.Id); categories = Service.GetCategories();}">Delete category</button>
         </li>
     }
 </ul>
 
 <input placeholder="Category to add" @bind="category.Name" />
-<button @onclick="()=>{category.Id = 0; Service.AddCategory(category);}">Add category</button>
+<button @onclick="()=>{category.Id = 0; Service.AddCategory(category); categories = Service.GetCategories();}">Add category</button>
 
 @code {
-    List<Category> categories = new List<Category>() { new Category() { Id = 1, Name = "Food" }, 
-    new Category() { Id = 2, Name = "House" }, 
-    new Category() { Id = 3, Name = "Entertainment" } };
+    List<Category> categories;
 
     Category category = new Category();
 
     private string? newCategory;
+
+    protected override void OnInitialized()
+    {
+        categories = Service.GetCategories();
+    }
 }

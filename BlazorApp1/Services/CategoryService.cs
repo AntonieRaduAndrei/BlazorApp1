@@ -16,7 +16,7 @@ namespace BlazerApp1.Services
 
         public List<Category> GetCategories()
         {
-            return _context.Categories.ToList();
+            return _context.Categories.AsNoTracking().ToList();
         }
         public Category AddCategory(Category category)
         {
