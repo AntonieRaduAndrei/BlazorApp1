@@ -1,0 +1,41 @@
+﻿<h3>Categories</h3>
+@page "/categories"
+@using BlazorApp1.Models;
+@using BlazorApp1.Services;
+@inject CategoryService Service;
+
+
+<ul>
+    @foreach (var category in Service.GetCategories())
+    {
+        <li>@category.Name</li>
+    }
+</ul>
+
+<input placeholder="Category to add" @bind="newCategory" />
+<button @onclick="AddCategory">Add category</button>
+
+@code {
+    List<Category> categories = new List<Category>() { new Category() { Id = 1, Name = "Food" }, 
+    new Category() { Id = 2, Name = "House" }, 
+    new Category() { Id = 3, Name = "Entertainment" } };
+
+    private string? newCategory;
+
+    private void AddCategory()
+    {
+
+        if (!string.IsNullOrWhiteSpace(newCategory))
+        {
+            categories.Add(new Category { Id = categories.Last().Id + 1, Name = newCategory });
+            newCategory = string.Empty;
+        }
+    }
+
+    private void DeleteCategory(int id)
+    {
+        var categoryToDelete = categories.Find(categories => categories.Id == id);
+        if (categoryToDelete != null)
+            categories.Remove(categoryToDelete);
+    }
+}

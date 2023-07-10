@@ -1,6 +1,8 @@
 using BlazorApp1.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
+using BlazorApp1.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddScoped<CategoryService>();
+
+// Configure the database and connection
+builder.Services.AddDbContext<ExpenseTrackerContext>(options => 
+    options.UseNpgsql(builder.Configuration.GetConnectionString("ExpenseTrackerDatabase")));
 
 var app = builder.Build();
 
