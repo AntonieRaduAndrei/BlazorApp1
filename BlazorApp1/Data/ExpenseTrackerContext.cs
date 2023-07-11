@@ -27,6 +27,18 @@ namespace BlazorApp1.Data
                 new Category() { Id = 5, Name = "Clothes" },
                 new Category() { Id = 6, Name = "House" },
             });
+            //modelBuilder.Entity<Expense>().HasData(new Expense[]
+            //{
+            //    new Expense()
+            //    {
+            //        Id = 7,
+            //        Title = "a",
+            //        Date = DateTime.Now,
+            //        Amount = 100,
+            //        Planned = true,
+            //        CategoryId = 1,
+            //    },
+            //});
         }
     }
 }

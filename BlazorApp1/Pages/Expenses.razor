@@ -1,0 +1,66 @@
+﻿<h3>Expenses</h3>
+@page "/expenses"
+@using BlazorApp1.Models;
+@using BlazorApp1.Services;
+@inject ExpenseService Service;
+@inject CategoryService CService;
+@inject NavigationManager NavigationManager
+
+
+<ul>
+    @foreach (var expense in expenses)
+    {
+        <li>
+            <input @bind="expense.Title" />
+            <button @onclick="()=>{Service.DeleteExpense(expense.Id); expenses = Service.GetExpenses();}">Delete expense</button>
+        </li>
+    }
+</ul>
+
+<table border="1">
+    <tr>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Planned</th>
+        <th>Category</th>
+        <th colspan="2">Actions</th>
+    </tr>
+    @foreach (var expense in expenses)
+    {
+        <tr>
+            <td>@expense.Title</td>
+            <td>@expense.Date.ToString("dd/mm/yyyy")</td>
+            <td>@expense.Amount</td>
+            <td>@expense.Planned</td>
+            <td>@CService.GetCategoryData(@expense.CategoryId).Name</td>
+            <td>
+                <button @onclick="()=>{Service.DeleteExpense(expense.Id); expenses = Service.GetExpenses();}">Delete</button>
+            </td>
+            <td>
+                <button @onclick="(()=>EditExpense(expense.Id))">Edit</button>
+            </td>
+        </tr>
+    }
+</table>
+
+<button @onclick="(AddNewExpense)">Add expense</button>
+
+@code {
+    List<Expense> expenses;
+
+    Expense expense = new Expense();
+
+    private string? newExpense;
+
+    protected override void OnInitialized()
+    {
+        expenses = Service.GetExpenses();
+    }
+
+    void AddNewExpense()
+    { NavigationManager.NavigateTo("/expenses/new", true); }
+
+    void EditExpense(int id)
+    { NavigationManager.NavigateTo("/expenses/" + id, true); }
+}

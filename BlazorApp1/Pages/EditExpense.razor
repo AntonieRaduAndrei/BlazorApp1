@@ -1,0 +1,9 @@
+﻿<h3>EditExpense</h3>
+<h1>@expenseId</h1>
+@page "/expenses/{expenseId:int}"
+
+<ExpenseForm expenseId="expenseId"></ExpenseForm>
+
+@code {
+	[Parameter] public Int32 expenseId{ get; set; }
+}

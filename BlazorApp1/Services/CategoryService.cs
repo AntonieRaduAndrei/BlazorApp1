@@ -3,7 +3,7 @@ using BlazorApp1.Models;
 using BlazorApp1.Pages;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlazerApp1.Services
+namespace BlazorApp1.Services
 {
     public class CategoryService
     {

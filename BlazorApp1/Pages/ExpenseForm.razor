@@ -1,0 +1,71 @@
+﻿@using BlazorApp1.Models;
+@using BlazorApp1.Services;
+@inject CategoryService CService;
+@inject ExpenseService EService;
+@inject NavigationManager NavigationManager
+
+
+<label for="Title">Title: </label>
+<input @bind="expense.Title" type="text">
+<br />
+
+<label for="Date">Date: </label>
+<input @bind="expense.Date" type="date">
+<br />
+
+<label for="Amount">Amount: </label>
+<input @bind="expense.Amount" type="number">
+<br />
+
+<label for="Planned">Planned?</label>
+<input @bind="expense.Planned" type="checkbox">
+<br />
+
+<label for="Category">Choose a category:</label>
+
+<select name="categories" @bind="expense.CategoryId" id="categories">
+    @foreach (var category in categories)
+    {
+        <option value="@category.Id">@category.Name</option>
+    }
+</select>
+<br />
+
+<button @onclick="NavigateToExpenses">Save</button>
+
+@code {
+    [Parameter] public Int32 expenseId { get; set; }
+    List<Category> categories;
+
+    Category category = new Category();
+    Expense expense;
+
+    private string? newCategory;
+
+    protected override void OnInitialized()
+    {
+        categories = CService.GetCategories();
+        expenses = EService.GetExpenses();
+        if(expenseId != 0)
+            expense = EService.GetExpenseData(expenseId);
+        else
+            expense = new Expense() { Date = DateTime.UtcNow };
+    }
+
+    List<Expense> expenses;
+
+    private string? newExpense;
+
+    void NavigateToExpenses()
+    {
+        if (expenseId != 0)
+            EService.UpdateExpenseDetails(expense);
+        else
+        {
+            expense.Id = 0;
+            EService.AddExpense(expense);
+        }
+        expenses = EService.GetExpenses();
+        NavigationManager.NavigateTo("/expenses", true);
+    }
+}
